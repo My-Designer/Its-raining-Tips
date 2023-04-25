@@ -1,0 +1,61 @@
+.ru, .es, .de {display: none} /* must be rule 0 */
+.rainline { /* must be rule 1 */
+	display: flex;
+	justify-content: space-between;
+	color: white;
+}
+#drench div, #tipped {margin: .2em}
+body {
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+}
+input, select, optgroup, option, textarea {
+	font-family: inherit;
+}
+p {
+	margin: .4em 0;
+}
+section {
+	margin: 1.1em 0;
+}
+#demoMath {
+	/* width: 30em; */
+	height: 13em;
+}
+#demoRain, #demoRain>* {
+	display: table; /* inherited by children? */
+	/* visibility: hidden; */
+	/* position: relative; */
+	/* border: 1px solid red; */
+}
+.optable tr td:first-child>* {
+	padding: 0;
+	margin: 0;
+	/* width: 9em; */
+	box-sizing: border-box;
+  width: 100%;
+	text-align: right;
+}
+.optable tr td:last-child>* {
+	margin: 0 .5em;
+}
+/* .optable select,optgroup,option,input { text-align: right; } */
+#tipped {
+	background-color: #ff3;
+	font-weight: bold;
+}
+#tipped span:first-child {
+	/* color: #69a; */
+	color: #dc0000;
+}
+#tipped span:last-child {
+	color: black;
+}
+.g1{flex-grow:1}
+.g2{flex-grow:2}
+.g3{flex-grow:3}
+.g4{flex-grow:4}
+.g5{flex-grow:5}
+.g6{flex-grow:6}
+.g7{flex-grow:7}
+.g8{flex-grow:8}
+.g9{flex-grow:9}

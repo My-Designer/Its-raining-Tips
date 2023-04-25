@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>💧 It’s raining Tips! 💧</title>
+<link rel="stylesheet" href="main.css">
+<script src="demo.js"></script>
+<script src="main.js"></script>
+<link rel="icon" href="rain.svg" />
+</head>
+<body onload="setUp()" onresize="refreshRain()">
+  <nav>
+    <select id="language" onchange="chLanguage()">
+      <option value="en">🇬🇧</option>
+      <option value="ru">🇷🇺</option>
+      <option value="es">🇪🇸</option>
+      <option value="de">🇩🇪</option>
+    </select>      
+    <select id="topic" onchange="chTopic()">
+      <optgroup label="overview">
+        <option value="intro"        >x1</option>
+        <option value="demo"         >x2</option>
+        <option value="strategy"     >x3</option>
+        <option value="contact"      >x4</option>
+      </optgroup>
+      <optgroup label="settings">
+        <option value="summary"      >x5</option>
+        <option value="language"     >Language</option>
+        <option value="background"   >Background</option>
+        <option value="predefined"   >Set of Emojis</option>
+        <option value="customized"   >Your Emojis</option>
+        <option value="maxLines"     >Maximum Lines</option>
+        <option value="halfTokens"   >Medium Tokens</option>
+        <option value="minTokens"    >Minimum Tokens</option>
+        <option value="examples"     >Show Examples</option>
+      </optgroup>
+    </select>
+    <span id="youSelected"></span>
+  </nav>
+  <div id="Page">🇬🇧 Nothing to see!</div>
+</body>
+</html>
