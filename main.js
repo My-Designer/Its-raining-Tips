@@ -5,11 +5,11 @@ const G = {
   opt: {},
   i18n: {
     overview: {en: 'Overview'     ,ru: 'обзор'     ,es: 'Sinopsis'      ,de:'Übersicht'},
-    settings: {en: 'Settings'     ,ru: 'настройка' ,es: 'Configuración' ,de:'Einstellungen'},
     intro:    {en: 'Introduction' ,ru: 'введение'  ,es: 'Introducción'  ,de:'Einführung'},
-    strategy: {en: 'Strategy'     ,ru: 'страте́гия' ,es: 'Estrategia'    ,de:'Strategie'},
     demo:     {en: 'Examples'     ,ru: 'пример'    ,es: 'Ejemplo'       ,de:'Beispiele'},
+    strategy: {en: 'Strategy'     ,ru: 'страте́гия' ,es: 'Estrategia'    ,de:'Strategie'},
     contact:  {en: 'Contact'      ,ru: 'связаться' ,es: 'Contactar'     ,de:'Kontakt'},
+    settings: {en: 'Settings'     ,ru: 'настройка' ,es: 'Configuración' ,de:'Einstellungen'},
     summary:  {en: 'Summary'      ,ru: 'кра́ткое'   ,es: 'Compendio'     ,de:'Überblick'},
   }
 }
@@ -66,7 +66,7 @@ function setUp() {
     for (const name of names) G.opt[type][name] = document.querySelector(`[${type}="${name}"]`);
   }
   opt('label', ['overview', 'settings']);
-  opt('value', ['intro', 'strategy', 'demo', 'contact', 'summary']);
+  opt('value', ['intro', 'demo', 'contact']);
   chLanguage();
   load();
 }
