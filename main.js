@@ -6,7 +6,7 @@ const G = {
   i18n: {
     overview: {en: 'Overview'     ,ru: 'обзор'     ,es: 'Sinopsis'      ,de:'Übersicht'},
     intro:    {en: 'Introduction' ,ru: 'введение'  ,es: 'Introducción'  ,de:'Einführung'},
-    demo:     {en: 'Examples'     ,ru: 'пример'    ,es: 'Ejemplo'       ,de:'Beispiele'},
+    demo:     {en: 'Try it here!' ,ru: 'Попробуй!' ,es: '¡Pruébelo!'    ,de:'Probier’s!'},
     strategy: {en: 'Strategy'     ,ru: 'страте́гия' ,es: 'Estrategia'    ,de:'Strategie'},
     contact:  {en: 'Contact'      ,ru: 'связаться' ,es: 'Contactar'     ,de:'Kontakt'},
     settings: {en: 'Settings'     ,ru: 'настройка' ,es: 'Configuración' ,de:'Einstellungen'},
@@ -78,7 +78,7 @@ function local(word) {
   }[word]?.[G.language.value] || word;
 }
 
-const [initRain, makeRain, ownEmojis] = function() {
+const [initRain, makeRain, pokeRain, ownEmojis] = function() {
 
   const sec = {};
   const wid = {};
@@ -87,7 +87,12 @@ const [initRain, makeRain, ownEmojis] = function() {
   const textSize = {};
 
   const options = [
-    ['showMath', null, [
+    ['showMath', {
+      en: 'Show how rain size is computed?',
+      ru: 'Покажите, как рассчитывается размер дождя?',
+      es: '¿Mostrar cómo se calcula el tamaño de la lluvia?',
+      de: 'Auch die Berechnung anzeigen?',
+    }, null, [
       'en: No, just show the rain.',
       'en: Yes, use huge scale.',
       'en: Yes, use large scale.',
@@ -112,37 +117,41 @@ const [initRain, makeRain, ownEmojis] = function() {
       'de: Ja, mittlerer Maßstab.',
       'de: Ja, kleiner Maßstab.',
       'de: Ja, winziger Maßstab.',
-    ], {
-      en: 'Show how rain size is computed?',
-      ru: 'Покажите, как рассчитывается размер дождя?',
-      es: '¿Mostrar cómo se calcula el tamaño de la lluvia?',
-      de: 'Auch die Berechnung anzeigen?',
-    }],
-    ['maxLines', 35, [5,6,8,10,13,16,20,25,30,35,40,50,60,70], {
+    ]],
+    ['maxLines', {
       en: 'How many lines for the largest rain?',
       ru: 'Сколько строк для самого большого дождя?',
       es: '¿Cuántas líneas para la lluvia más grande?',
       de: 'Wie viele Zeilen hat der stärkste Regen?',
-    }],
-    ['halfTokens', 200, [10,14,20,27,35,50,70,100,140,200,270,350,500,700,1000,1400,2000], {
+    }, [35,5,70]],
+//  }, 35, [5,6,8,10,13,16,20,25,30,35,40,50,60,70]],
+    ['halfTokens', {
       en: 'How many tokens to get ½ of that rain?',
       ru: 'Сколько токенов создают ½ этого дождя?',
       es: '¿Cuántas fichas crean ½ de esa lluvia?',
       de: 'Wie viele Tokens sind für ½ davon nötig?',
-    }],
-    ['minTokens', 3, [1,2,3,4,5,7,10,14,20,27,35,50,70,100,140,200], {
+    }, [100,20]],
+//  }, 200, [10,14,20,27,35,50,70,100,140,200,270,350,500,700,1000,1400,2000]],
+    ['minTokens', {
       en: 'How many tokens to get any rain at all?',
       ru: 'Сколько токенов, чтобы получить хоть какой-то дождь?',
       es: '¿Cuántas fichas para que llueva el más pequeño?',
       de: 'Wie viele Tokens sind mindestens für Regen nötig?',
-    }],
-    ['tipSize', 55, [1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181], {
+    }, [3,1]],
+//  }, 3, [1,2,3,4,5,7,10,14,20,27,35,50,70,100,140,200]],
+    ['tipSize', {
       en: 'How many tokens did Schruti send?',
       ru: 'Сколько токенов отправил Schruti?',
       es: '¿Cuántos fichas envió Schruti?',
       de: 'Wie viele Tokens hat Schruti geschickt?',
-    }],
-    ['background', null, [
+    }, [40,1]],
+//  }, 40, [1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181]],
+    ['background', {
+      en: 'Sky color behind the rain.',
+      ru: 'Цвет неба за дождем.',
+      es: 'Color del cielo detrás de la lluvia.',
+      de: 'Die Farbe des verregneten Himmels.',
+    }, null, [
       'SkyBlue',
       'HotPink',
       'Thistle',
@@ -162,13 +171,13 @@ const [initRain, makeRain, ownEmojis] = function() {
       'Bisque',
       'BurlyWood',
       'Silver',
-    ], {
-      en: 'Sky color behind the rain.',
-      ru: 'Цвет неба за дождем.',
-      es: 'Color del cielo detrás de la lluvia.',
-      de: 'Die Farbe des verregneten Himmels.',
-    }],
-    ['predefined', null, [
+    ]],
+    ['predefined', {
+      en: 'Select an existing set of emojis.',
+      ru: 'Выберите существующий набор эмодзи.',
+      es: 'Selecciona un conjunto de emojis existente.',
+      de: 'Wähle eine fertige Reihe von Emojis aus.',
+    }, null, [
       '🍇🍊🍈🍋🍎🍓🥝🥑🍄',
       '💐🌻🌼🌹🌺🌸🌷🍀🍁',
       '🐚🍭🍌🍆🥕🍭🥒🐓🪄',
@@ -179,13 +188,8 @@ const [initRain, makeRain, ownEmojis] = function() {
       '🐉🐲🦖🦕🦄',
       '🐈🐕🐱🐶',
       '🍒🍑',
-    ], {
-      en: 'Select an existing set of emojis.',
-      ru: 'Выберите существующий набор эмодзи.',
-      es: 'Selecciona un conjunto de emojis existente.',
-      de: 'Wähle eine fertige Reihe von Emojis aus.',
-    }],
-    ['customized', null, null, {
+    ]],
+    ['customized', {
       en: 'Create your own set of unicode emojis.',
       ru: 'Выберите свои любимые эмодзи в юникоде.',
       es: 'Crea tu propio conjunto de emojis unicode.',
@@ -196,7 +200,7 @@ const [initRain, makeRain, ownEmojis] = function() {
   class Option {
     constructor(arg) {
       const v = [...arg];
-      for(const key of ['id','selected','options','polyglott','color']) this[key] = v.shift();
+      for(const key of ['id','polyglott','selected','options']) this[key] = v.shift();
     }
     group() {
       const lab = // {shoWhich:'💧 ∿ ?', tipSize:'Tip Size'}[this.id] ||
@@ -213,9 +217,13 @@ const [initRain, makeRain, ownEmojis] = function() {
       return lab ? `<optgroup label="${lab}">${ops}</optgroup>` : ops;
     }
     select() {
+      const sel = this.selected;
       return this.options
-      ? `<select id="${this.id}" class="${this.id}" onchange="makeRain()">${this.group()}</select>`
-      : `<input id="${this.id}" type="text" onchange="ownEmojis()"/>`
+      ? `<select id="${this.id}" class="${this.id}" onchange="pokeRain()">${this.group()}</select>`
+      : !sel ? `<input id="${this.id}" type="text" onchange="ownEmojis()"/>`
+      : `<input id="${this.id}" type="number" required value="${sel[0]}" min="${sel[1]}"${
+        sel[2] && ' min="'+sel[2]+'"'
+      } onchange="pokeRain()" />`
       ;
     }
     describe() {
@@ -249,7 +257,7 @@ const [initRain, makeRain, ownEmojis] = function() {
       sec.Conf.innerHTML = Option.configuration();
       sec.Conf.style.visibility = 'visible';  
     }
-    makeRain();
+    pokeRain();
   }
 
 
@@ -354,21 +362,8 @@ const [initRain, makeRain, ownEmojis] = function() {
     }
   }
 
-  /* see math option:
-
-  No, just rain
-  Yes, short range
-  Yes, medium range
-  Yes, wide rage
-
-  Or, simpler:
-
-  Have constant em-token ratio, redraw on resize.
-
-  */
-
   function theMath(el,t,g/*,b,m,a,t,w,h*/) {
-    //el.onresize="makeRain()";
+    //el.onresize="pokeRain()";
     el.style.display = 'block';
     const colors = {};
     for (const d of [
@@ -493,7 +488,7 @@ const [initRain, makeRain, ownEmojis] = function() {
       // gt(r,v.h,t.b,'ro','h');
       const lt = local('tokens')+' →'+m6;
       const ll = local('lines') +' →'+m6;
-      if (!used(v.w-wid.pix(lt+gmax),v.w))
+      if (!used(v.w-wid.pix(lt+gmax)-em/2,v.w+em/5))
       gt(v.w, r,lt,'ru','h');
       gt(-r,v.h,ll,'ru','v');
       gt(-r,0,'0'+m6,'ru','h');
@@ -574,7 +569,10 @@ const [initRain, makeRain, ownEmojis] = function() {
 
   }
 
+  let scheduled;
+
   function makeRain() {
+    scheduled = false;
     const t = {        // all about Tokens
       b: [25,'maxLines'   ],// lines in Biggest possible rain
       m: [99,'halfTokens' ],// tokens needed for Medium rain
@@ -605,17 +603,23 @@ const [initRain, makeRain, ownEmojis] = function() {
     }
   }
 
+  function pokeRain() { // debounce
+    if (scheduled) return;
+    scheduled = true;
+    setTimeout(makeRain,0);
+  }
+
   function ownEmojis() {
     const c = dobby('customized');
     c.value = c.value.match(emorex)?.join('')||'';
-    makeRain();
+    pokeRain();
   }
 
-  return [initRain, makeRain, ownEmojis];
+  return [initRain, makeRain, pokeRain, ownEmojis];
 
 }();
 
 function refreshRain() {
   const m = mobby('showMath');
-  if (m && m.selectedIndex%6) makeRain();
+  if (m && m.selectedIndex%6) pokeRain();
 }
