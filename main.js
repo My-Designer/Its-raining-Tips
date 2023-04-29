@@ -11,8 +11,11 @@ const G = {
     contact:  {en: 'Contact'      ,ru: 'связаться' ,es: 'Contactar'     ,de:'Kontakt'},
     settings: {en: 'Settings'     ,ru: 'настройка' ,es: 'Configuración' ,de:'Einstellungen'},
     summary:  {en: 'Summary'      ,ru: 'кра́ткое'   ,es: 'Compendio'     ,de:'Überblick'},
+    setting:  {en: 'Setting'      ,ru: 'кра́ткое'   ,es: 'Compendio'     ,de:'Überblick'},
   }
 }
+
+const trans = key => G.i18n[key][G.language.value];
 
 const mobby = id => document.getElementById(id);
 const dobby = mobby || alert('No element: '+id);
@@ -20,15 +23,28 @@ const dobby = mobby || alert('No element: '+id);
 function load() {
   const file = new XMLHttpRequest();
   file.onload = function() {
+    delete file.onload; // avoid memory leak: file and function refer to each other
     const text =
     file.readyState!=4 ? "<div>Sorry, document appears not ready to parse</div>" :
     file.status!=200 ? "<div>Sorry, we could not download the document</div>" :
     file.responseText;
-    dobby("Page").innerHTML = text;
-    if (mobby("demoRain")) initRain();
-    delete file.onload; // avoid memory leak: file and function refer to each other
+    dobby('Page').innerHTML = text;
+    if (mobby('demoRain')) initRain();
+    if (mobby('setting')) doSetting();
+    for (const link of document.links) {
+      const url = new URL(link.href);
+      const topic = url.searchParams?.get('topic');
+      if (!topic) continue;
+      let p = link, l;
+      while(!l&&(p=p.parentElement)) if(p.className.length==2) l=p.className;
+      if (!l) continue;
+      const i = G.i18n[topic], t = i&&i[l];
+      if(!t) continue;
+      link.href += '&language='+l;
+      link.innerHTML = (l=='de'?'».«':'«.»').replace('.',t);
+    }
   }
-  file.open("GET", 'topics/'+G.topic.value+'.html', true);
+  file.open('GET', 'topics/'+G.topic.value+'.html', true);
   file.send(null);
 }
 
@@ -38,7 +54,7 @@ function showMathLanguage() {
 }
 
 function setEnd() {
-  dobby("youSelected").innerHTML = "You selected: " + G.language.value + '/' + G.topic.value;
+  dobby('youSelected').innerHTML = 'You selected: ' + G.language.value + '/' + G.topic.value;
   showMathLanguage()
 }
 
@@ -53,8 +69,8 @@ function chLanguage() {
   const other = Array.from(G.language).filter(x=>!x.selected).map(x=>'.'+x.value).join(', ');
   // alert('language: '+language+' other: '+other)
   document.styleSheets[0].cssRules[0].selectorText=other;
-  for (const opt in G.opt.label) G.opt.label[opt].label = G.i18n[opt][language];
-  for (const opt in G.opt.value) G.opt.value[opt].innerHTML = G.i18n[opt][language];
+  for (const opt in G.opt.label) G.opt.label[opt].label     = trans(opt); // G.i18n[opt][language];
+  for (const opt in G.opt.value) G.opt.value[opt].innerHTML = trans(opt); // G.i18n[opt][language];
   refreshRain();
   // showMathLanguage();
 }
@@ -67,6 +83,13 @@ function setUp() {
   }
   opt('label', ['overview', 'settings']);
   opt('value', ['intro', 'demo', 'contact']);
+  {
+    const url = new URL(window.location.href);
+    for (const [key, val] of url.searchParams) {
+      const e = mobby(key);
+      if (e) e.value = val;
+    }
+  }
   chLanguage();
   load();
 }
@@ -255,6 +278,11 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
     }
     if (sec.Conf) {
       sec.Conf.innerHTML = Option.configuration();
+      {
+        const url = new URL(window.location.href);
+        const i = url.searchParams?.get('showMath');
+        if (i) dobby('showMath').selectedIndex=+i, showMathLanguage();
+      }          
       sec.Conf.style.visibility = 'visible';  
     }
     pokeRain();
@@ -342,7 +370,7 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
         return c.pale(x);
       }).join()
     ;
-    return `linear-gradient(${h>1?140:99}deg,White ${h>1?2:3.4}em,${smooth})`;
+    return `linear-gradient(${h>1?140:90}deg,White ${h>1?2:3.4}em,${smooth})`;
   }
 
   function* dots(m,v,n,a) {
@@ -622,4 +650,28 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
 function refreshRain() {
   const m = mobby('showMath');
   if (m && m.selectedIndex%6) pokeRain();
+}
+
+function doSetting() {
+  const s = mobby('setting'), p = s.parentNode, g = p.parentNode;
+  const h = document.createElement('h2');
+  h.innerHTML = `Setting ${dobby('topic').selectedIndex-2}:`;
+  g.insertBefore(h,p);
+  p.insertBefore(document.createElement('hr'),s);
+  p.appendChild(document.createElement('hr'));
+  for (const [chap,dict] of Object.entries({
+    how: {
+      en: 'How to use this setting?',
+      ru: 'Как использовать эту настройку?',
+      es: '¿Cómo utilizar este ajuste?',
+      de: 'So benutzt du dies Setting:',
+    },
+    why: {
+      en: 'What does this setting do?',
+      ru: 'Что делает эта настройка?',
+      es: '¿Qué hace este ajuste?',
+      de: 'Das bewirkt dies Setting:',
+    },
+  })) dobby(chap).innerHTML =
+  Object.entries(dict).map(([lang,cont])=>`<span class="${lang}">${cont}</span>`).join('');
 }
