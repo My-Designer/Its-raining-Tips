@@ -61,6 +61,9 @@ section {
 #tipped span:last-child {
 	color: black;
 }
+#youSelected {
+	display: none;
+}
 .g1{flex-grow:1}
 .g2{flex-grow:2}
 .g3{flex-grow:3}
