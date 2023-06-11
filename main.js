@@ -41,7 +41,7 @@ function load() {
       const i = G.i18n[topic], t = i&&i[l];
       if(!t) continue;
       link.href += '&language='+l;
-      link.innerHTML = (l=='de'?'».«':'«.»').replace('.',t);
+      link.innerHTML = (l=='en'?'“-”':l=='de'?'„-“':'«-»').replace('-',t);
     }
   }
   file.open('GET', 'topics/'+G.topic.value+'.html', true);
@@ -245,7 +245,7 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
       ? `<select id="${this.id}" class="${this.id}" onchange="pokeRain()">${this.group()}</select>`
       : !sel ? `<input id="${this.id}" type="text" onchange="ownEmojis()"/>`
       : `<input id="${this.id}" type="number" required value="${sel[0]}" min="${sel[1]}"${
-        sel[2] && ' min="'+sel[2]+'"'
+        sel[2] && ' max="'+sel[2]+'"'
       } onchange="pokeRain()" />`
       ;
     }

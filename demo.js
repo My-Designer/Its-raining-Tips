@@ -30,10 +30,7 @@ SW.g = function(grafikelement, x=0, y=0) {
   this.circle = function(cx,cy,r,fill) {
     const circle = makEl('circle');
     for ( const [key,val] of Object.entries({r,fill,cx,cy:this.h-cy}) ) circle.setAttribute(key, val);
-    /* circle.setAttribute('cx',x);
-    circle.setAttribute('cy',this.h-y);
-    circle.setAttribute('r',r); */
-    // circle.setAttribute('stroke-width', 0);
+    circle.setAttribute('stroke-width', 0);
     svg.appendChild(circle);
   }
   
