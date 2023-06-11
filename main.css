@@ -14,15 +14,15 @@ input, select, optgroup, option, textarea {
 p {
 	margin: .4em 0;
 }
-div:has(>#setting) {
+#setting {
 	display: table;
 	background: oldlace;
 	padding: 0em 1em;
 }
-#setting p {
+#setting div p {
 	margin: .1em 0;
 }
-#setting p:first-child {
+#setting div p:first-child {
 	font-weight: bold;
 }
 section {

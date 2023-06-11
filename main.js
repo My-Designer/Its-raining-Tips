@@ -665,7 +665,8 @@ function refreshRain() {
 }
 
 function doSetting() {
-  const s = mobby('setting'), p = s.parentNode, g = p.parentNode;
+  // const s = mobby('setting'), p = s.parentNode, g = p.parentNode;
+  const p = mobby('setting'), g = p.parentNode, s = p.firstChild;
   const h = document.createElement('h2');
   h.innerHTML = `Setting ${dobby('topic').selectedIndex-2}:`;
   g.insertBefore(h,p);
