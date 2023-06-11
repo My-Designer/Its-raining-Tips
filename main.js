@@ -246,7 +246,7 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
       : !sel ? `<input id="${this.id}" type="text" onchange="ownEmojis()"/>`
       : `<input id="${this.id}" type="number" required value="${sel[0]}" min="${sel[1]}"${
         sel[2] && ' max="'+sel[2]+'"'
-      } onchange="pokeRain()" />`
+      } onfocus="onFocus(this)" oninput="onCI(this)" onchange="onCI(this,true)" />`
       ;
     }
     describe() {
@@ -646,6 +646,18 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
   return [initRain, makeRain, pokeRain, ownEmojis];
 
 }();
+
+function onFocus(i) {
+  i.oldval = i.value;
+}
+
+function onCI(i,force) {
+  if (i.oldval==i.value) return;
+  const d = i.oldval-i.value; // d*d==1 if the up and down arrows are being used.
+  if (!force && d*d>1) return;
+  onFocus(i);
+  pokeRain();
+}
 
 function refreshRain() {
   const m = mobby('showMath');
