@@ -36,8 +36,7 @@ section {
 	display: table; /* inherited by children? */
 	/* visibility: hidden; */
 	/* position: relative; */
-	border: 1px solid red;
-	font-size: large;
+	/* border: 1px solid red; */
 }
 .optable tr td:first-child>* {
 	padding: 0;
