@@ -194,6 +194,7 @@ const [initRain, makeRain, pokeRain, ownEmojis] = function() {
       'Bisque',
       'BurlyWood',
       'Silver',
+      'Black',
     ]],
     ['predefined', {
       en: 'Select an existing set of emojis.',
